@@ -8,8 +8,8 @@
             <div class="col-md-12">
                 <div class="card border-0 rounded shadow">
                     <div class="card-body">
-                        <router-link :to="{ name: 'admin.instruktur.create' }" class="btn btn-md btn-success">TAMBAH
-                            INSTRUKTUR</router-link>
+                        <router-link :to="{ name: 'admin.pegawai.create' }" class="btn btn-md btn-success">TAMBAH
+                            PEGAWAI</router-link>
                         <table class="table table-striped table-bordered mt-4 table-responsive">
                             <thead class="thead-dark">
                                 <tr>
@@ -19,25 +19,29 @@
                                     <th scope="col">TANGGAL LAHIR</th>
                                     <th scope="col">TELEPON</th>
                                     <th scope="col">ALAMAT</th>
+                                    <th scope="col">ROLE</th>
                                     <th scope="col">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(user, id) in users" :key="id">
-                                    <template v-for="(instruktur, id) in instrukturs" :key="id">
-                                        <td v-if="instruktur.id === user.id_instruktur">{{ instruktur.id_instruktur }}</td>
+                                    <template v-for="(pegawai, id) in pegawais" :key="id">
+                                        <td v-if="pegawai.id === user.id_pegawai">{{ pegawai.id_pegawai }}</td>
                                     </template>
                                     <td>{{ user.nama }}</td>
                                     <td>{{ user.email }}</td>
                                     <td>{{ user.tanggal_lahir }}</td>
                                     <td>{{ user.telepon }}</td>
                                     <td>{{ user.alamat }}</td>
+                                    <template v-for="(pegawai, id) in pegawais" :key="id">
+                                        <td v-if="pegawai.id === user.id_pegawai">{{ pegawai.role }}</td>
+                                    </template>
 
                                     <td class="text-center">
-                                        <router-link :to="{ name: 'admin.instruktur.edit', params: { id: user.id } }" class="btn btn-sm btn-primary mr-1">
+                                        <router-link :to="{ name: 'admin.pegawai.edit', params: { id: user.id } }" class="btn btn-sm btn-primary mr-1">
                                             EDIT
                                         </router-link> &nbsp;
-                                        <button class="btn btn-sm btn-danger ml-1" @click="remove(user.id_instruktur)">
+                                        <button class="btn btn-sm btn-danger ml-1" @click="remove(user.id_pegawai)">
                                             DELETE
                                         </button> &nbsp;
                                         <button class="btn btn-sm btn-warning ml-1" @click="reset(user.id)">
@@ -61,7 +65,7 @@ import { useToast } from "vue-toastification";
 export default {
     setup() {
         let users = ref([])
-        let instrukturs = ref([])
+        let pegawais = ref([])
 
         const token = localStorage.getItem('token')
         
@@ -70,16 +74,16 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/userInstruktur')
+            axios.get('http://127.0.0.1:8000/api/userPegawai')
             .then(response => {
                 users.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
 
-            axios.get('http://127.0.0.1:8000/api/instruktur')
+            axios.get('http://127.0.0.1:8000/api/pegawai')
             .then(response => {
-                instrukturs.value = response.data.data
+                pegawais.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
@@ -87,7 +91,7 @@ export default {
         })
         //method delete
         function remove(id) {
-            axios.delete(`http://127.0.0.1:8000/api/instruktur/${id}`)
+            axios.delete(`http://127.0.0.1:8000/api/pegawai/${id}`)
             .then(() => {
                         toast.error("Berhasil Hapus Data !",{
                             timeout: 2000
@@ -112,7 +116,7 @@ export default {
         
         return {
             users,
-            instrukturs,
+            pegawais,
             remove,
             reset
         }

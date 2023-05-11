@@ -1,33 +1,50 @@
 <template>
     <div
-        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
+      class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+    >
+      <h1 class="h2">Dashboard</h1>
     </div>
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card border-0 rounded shadow">
-                    <div class="card-body">
-                        <button class="btn btn-md btn-success" @click="generate">
-                                            GENERATE JADWAL UMUM
-                                        </button>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card border-0 rounded shadow">
+            <div class="card-body">
+              
+              <button class="btn btn-md btn-success mb-4" @click="generate">
+                GENERATE JADWAL UMUM
+              </button>
+
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Cari data..."
+                  v-model="searchTerm"
+                />
+              </div>
                         <table class="table table-striped table-bordered mt-4 table-responsive">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">ID</th>
+                                    <th scope="col">HARI</th>
                                     <th scope="col">KELAS</th>
                                     <th scope="col">INSTRUKTUR</th>
-                                    <th scope="col">HARI</th>
                                     <th scope="col">JAM</th>
                                     <th scope="col">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(jadwal_umum, id) in jadwal_umums" :key="id">
-                                    <td>{{ jadwal_umum.id }}</td>
-                                    <td>{{ jadwal_umum.id_kelas }}</td>
-                                    <td>{{ jadwal_umum.id_instruktur }}</td>
+                                <tr v-for="(jadwal_umum, id) in filteredJadwalUmums" :key="id">
+
                                     <td>{{ jadwal_umum.hari }}</td>
+
+                                    <template v-for="(kelas, id) in kelass" :key="id">
+                                        <td v-if="kelas.id === jadwal_umum.id_kelas">{{ kelas.nama_kelas }}</td>
+                                    </template>
+
+                                    <template v-for="(user, id) in users" :key="id">
+                                        <td v-if="user.id_instruktur === jadwal_umum.id_instruktur">{{ user.nama }}</td>
+                                    </template>
+                                    
                                     <td>{{ jadwal_umum.jam_kelas }}</td>
 
                                     <td class="text-center">
@@ -49,13 +66,17 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { onMounted, ref } from 'vue'
+import axios from "axios";
+import { onMounted, ref } from "vue";
 import { useToast } from "vue-toastification";
+
 export default {
     setup() {
-        let jadwal_umums = ref([])
-        let kelass = ref([])
+        let jadwal_umums = ref([]);
+        let kelass = ref([]);
+        let instrukturs = ref([]);
+        let users = ref([]);
+        let searchTerm = ref("");
 
         const token = localStorage.getItem('token')
         
@@ -80,7 +101,14 @@ export default {
 
             axios.get('http://127.0.0.1:8000/api/instruktur')
             .then(response => {
-                kelass.value = response.data.data
+                instrukturs.value = response.data.data
+            }).catch(error => {
+                console.log(error.response.data)
+            })
+
+            axios.get('http://127.0.0.1:8000/api/userInstruktur')
+            .then(response => {
+                users.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
@@ -111,14 +139,33 @@ export default {
                 console.log(error.response.data)
             })
         }
+        
         return {
-            jadwal_umums,
-            kelass,
-            generate,
-            remove,
-        }
-    }
-}
+        jadwal_umums,
+        kelass,
+        instrukturs,
+        users,
+        searchTerm,
+        generate,
+        remove,
+        };
+    },
+    
+    computed: {
+        filteredJadwalUmums() {
+            return this.jadwal_umums.filter((jadwal_umum) => {
+            const searchTermLower = this.searchTerm.toLowerCase();
+            const kelas = this.kelass.find((kelas) => kelas.id === jadwal_umum.id_kelas);
+            return (
+                jadwal_umum.hari.toLowerCase().includes(searchTermLower) ||
+                jadwal_umum.jam_kelas.toLowerCase().includes(searchTermLower) ||
+                (kelas && kelas.nama_kelas.toLowerCase().includes(searchTermLower))
+            );
+            });
+        },
+    },
+
+};
 </script>
 
 <style scoped>

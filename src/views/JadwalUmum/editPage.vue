@@ -117,10 +117,13 @@
                         })
                         //redirect ke post index
                         router.push({
-                            name: "admin.instruktur.index",
+                            name: "manager.jadwalumum.index",
                         });
                     })
                     .catch((error) => {
+                        toast.error("Jadwal Bertabrakan !",{
+                            timeout: 2000
+                        })
                         //assign state validation with error
                         validation.value = error.response.data;
                     });

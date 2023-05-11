@@ -101,6 +101,16 @@ const routes = [
                 component: () => import("@/views/JadwalUmum/editPage.vue"),
             },
             {
+                path: "/jadwalharian",
+                name: "manager.jadwalharian.index",
+                component: () => import("@/views/JadwalHarian/indexPage.vue"),
+            },
+            {
+                path: "/jadwalharian/edit",
+                name: "manager.jadwalharian.edit",
+                component: () => import("@/views/JadwalHarian/editPage.vue"),
+            },
+            {
                 path: "/member",
                 name: "kasir.member.index",
                 component: () => import("@/views/Member/indexPage.vue"),
@@ -114,6 +124,51 @@ const routes = [
                 path: "/member/edit",
                 name: "kasir.member.edit",
                 component: () => import("@/views/Member/editPage.vue"),
+            },
+            {
+                path: "/transaksiaktivasi",
+                name: "kasir.transaksiaktivasi.index",
+                component: () => import("@/views/TransaksiAktivasi/indexPage.vue"),
+            },
+            {
+                path: "/transaksiaktivasi/create",
+                name: "kasir.transaksiaktivasi.create",
+                component: () => import("@/views/TransaksiAktivasi/createPage.vue"),
+            },
+            {
+                path: "/transaksiaktivasi/cetak",
+                name: "kasir.transaksiaktivasi.cetak",
+                component: () => import("@/views/TransaksiAktivasi/cetakPage.vue"),
+            },
+            {
+                path: "/transaksideposituang",
+                name: "kasir.transaksideposituang.index",
+                component: () => import("@/views/TransaksiDepositUang/indexPage.vue"),
+            },
+            {
+                path: "/transaksideposituang/create",
+                name: "kasir.transaksideposituang.create",
+                component: () => import("@/views/TransaksiDepositUang/createPage.vue"),
+            },
+            {
+                path: "/transaksideposituang/cetak",
+                name: "kasir.transaksideposituang.cetak",
+                component: () => import("@/views/TransaksiDepositUang/cetakPage.vue"),
+            },
+            {
+                path: "/transaksidepositkelas",
+                name: "kasir.transaksidepositkelas.index",
+                component: () => import("@/views/TransaksiDepositKelas/indexPage.vue"),
+            },
+            {
+                path: "/transaksidepositkelas/create",
+                name: "kasir.transaksidepositkelas.create",
+                component: () => import("@/views/TransaksiDepositKelas/createPage.vue"),
+            },
+            {
+                path: "/transaksidepositkelas/cetak",
+                name: "kasir.transaksidepositkelas.cetak",
+                component: () => import("@/views/TransaksiDepositKelas/cetakPage.vue"),
             },
         ],
     },

@@ -4,12 +4,12 @@
             <div class="col-md-12">
                 <div class="card border-0 rounded shadow">
                     <div class="card-body">
-                        <h4>TAMBAH INSTRUKTUR</h4>
+                        <h4>TAMBAH PEGAWAI</h4>
                         <hr />
                         <form @submit.prevent="store">
                             <div class="form-group mb-3">
                                 <label class="form-label">Nama</label>
-                                <input type="text" class="form-control" v-model="instruktur.nama"
+                                <input type="text" class="form-control" v-model="pegawai.nama"
                                     placeholder="Masukkan nama" />
                                 <!-- validation -->
                                 <div v-if="validation.nama" class="mt-2 alert alert-danger">
@@ -19,7 +19,7 @@
 
                             <div class="form-group mb-3">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" v-model="instruktur.email"
+                                <input type="email" class="form-control" v-model="pegawai.email"
                                     placeholder="Masukkan email" />
                                 <!-- validation -->
                                 <div v-if="validation.email" class="mt-2 alert alert-danger">
@@ -29,7 +29,7 @@
 
                             <div class="form-group mb-3">
                                 <label class="form-label">Telepon</label>
-                                <input type="number" class="form-control" v-model="instruktur.telepon"
+                                <input type="number" class="form-control" v-model="pegawai.telepon"
                                     placeholder="Masukkan telepon" />
                                 <!-- validation -->
                                 <div v-if="validation.telepon" class="mt-2 alert alert-danger">
@@ -39,7 +39,7 @@
 
                             <div class="form-group mb-3">
                                 <label for="content" class="form-label">Tanggal Lahir</label>
-                                <input type="date" class="form-control" v-model="instruktur.tanggal_lahir"
+                                <input type="date" class="form-control" v-model="pegawai.tanggal_lahir"
                                     placeholder="Masukkan tanggal lahir" />
                                 <!-- validation -->
                                 <div v-if="validation.tanggal_lahir" class="mt-2 alert alert-danger">
@@ -48,12 +48,26 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label class="form-label">alamat</label>
-                                <input type="text" class="form-control" v-model="instruktur.alamat"
+                                <label class="form-label">Alamat</label>
+                                <input type="text" class="form-control" v-model="pegawai.alamat"
                                     placeholder="Masukkan email" />
                                 <!-- validation -->
                                 <div v-if="validation.alamat" class="mt-2 alert alert-danger">
                                     {{ validation.alamat[0] }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">Role</label>
+                                <select class="form-control" v-model="pegawai.role">
+                                    <option value="" selected hidden disabled>Pilih Role</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="MO">MO</option>
+                                    <option value="Kasir">Kasir</option>
+                                </select>
+                                <!-- validation -->
+                                <div v-if="validation.role" class="mt-2 alert alert-danger">
+                                    {{ validation.role[0] }}
                                 </div>
                             </div>
 
@@ -73,13 +87,14 @@
     import { useToast } from "vue-toastification";
     export default {
         setup() {
-            //state instruktur
-            const instruktur = reactive({
+            //state pegawai
+            const pegawai = reactive({
                 nama: "",
                 email: "",
                 tanggal_lahir: "",
                 telepon: "",
                 alamat: "",
+                role: "",
             });
             //state validation
             const validation = ref([]);
@@ -87,22 +102,24 @@
             const router = useRouter();
             //method store
             function store() {
-                let nama = instruktur.nama;
-                let email = instruktur.email;
-                let tanggal_lahir = instruktur.tanggal_lahir;
-                let telepon = instruktur.telepon;
-                let alamat = instruktur.alamat;
+                let nama = pegawai.nama;
+                let email = pegawai.email;
+                let tanggal_lahir = pegawai.tanggal_lahir;
+                let telepon = pegawai.telepon;
+                let alamat = pegawai.alamat;
+                let role = pegawai.role;
                 let toast = useToast();
 
                 const token = localStorage.getItem('token')
                 axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
                 axios
-                    .post("http://127.0.0.1:8000/api/instruktur", {
+                    .post("http://127.0.0.1:8000/api/pegawai", {
                         nama: nama,
                         email: email,
                         tanggal_lahir: tanggal_lahir,
                         telepon: telepon,
                         alamat: alamat,
+                        role: role,
                     })
                     .then(() => {
                         toast.success("Berhasil Tambah Data !",{
@@ -110,7 +127,7 @@
                         })
                         //redirect ke post index
                         router.push({
-                            name: "admin.instruktur.index",
+                            name: "admin.pegawai.index",
                         });
                     })
                     .catch((error) => {
@@ -120,7 +137,7 @@
             }
             //return
             return {
-                instruktur,
+                pegawai,
                 validation,
                 router,
                 store,

@@ -14,9 +14,12 @@ import 'bootstrap/dist/js/bootstrap.min'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
+import html2pdf from 'html2pdf.js';
+
 const app = createApp(App)
 
 app.use(router)
 app.use(Toast)
+app.use(html2pdf)
 
 app.mount('#app')

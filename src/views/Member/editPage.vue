@@ -59,7 +59,7 @@
 
                             <div class="form-group mb-3">
                                 <label class="form-label">Deposit Uang</label>
-                                <input type="number" class="form-control" v-model="user.deposit_uang"
+                                <input type="number" class="form-control" v-model="member.deposit_uang"
                                     placeholder="Masukkan deposit uang" />
                                 <!-- validation -->
                                 <div v-if="validation.deposit_uang" class="mt-2 alert alert-danger">
@@ -69,7 +69,7 @@
 
                             <div class="form-group mb-3">
                                 <label for="content" class="form-label">Tanggal Expired</label>
-                                <input type="date" class="form-control" v-model="user.tanggal_expired"
+                                <input type="date" class="form-control" v-model="member.tanggal_expired"
                                     placeholder="Masukkan tanggal expired" />
                                 <!-- validation -->
                                 <div v-if="validation.tanggal_expired" class="mt-2 alert alert-danger">
@@ -79,7 +79,7 @@
 
                             <div class="form-group mb-3">
                                 <label for="content" class="form-label">Status</label>
-                                <select class="form-control" v-model="user.status">
+                                <select class="form-control" v-model="member.status">
                                     <option value="" selected hidden disabled>Pilih Status</option>
                                     <option value="Aktif">Aktif</option>
                                     <option value="Tidak Aktif">Tidak Aktif</option>
@@ -113,10 +113,18 @@
                 telepon: "",
                 tanggal_lahir: "",
                 alamat: "",
+                id_member: "",
                 deposit_uang: "",
                 tanggal_expired: "",
                 status: "",
             });
+
+            const member = reactive({
+                deposit_uang: "",
+                tanggal_expired: "",
+                status: "",
+            });
+
             //state validation
             const validation = ref([]);
             //vue router
@@ -124,6 +132,7 @@
             //params id
             const route = useRoute();
             const id = route.params.id
+            const id_member = user.id_member
 
             const token = localStorage.getItem('token')
 
@@ -139,14 +148,22 @@
                     user.telepon = response.data.data.telepon
                     user.tanggal_lahir = response.data.data.tanggal_lahir
                     user.alamat = response.data.data.alamat
-                    user.deposit_uang = response.data.data.deposit_uang
-                    user.tanggal_expired = response.data.data.tanggal_expired
-                    user.status = response.data.data.status
+                    user.id_member = response.data.data.id_member
+
+                }).catch(error => {
+                    console.log(error.response.data)
+                })
+            axios
+                .get("http://127.0.0.1:8000/api/member/" + id_member,)
+                .then(response => {
+                    //assign state posts with response data
+                    member.deposit_uang = response.data.data.deposit_uang
+                    member.tanggal_expired = response.data.data.tanggal_expired
+                    member.status = response.data.data.status
                 }).catch(error => {
                     console.log(error.response.data)
                 })
             })
-
             //method update
             function update() {
                 let nama = user.nama;
@@ -187,6 +204,7 @@
             //return
             return {
                 user,
+                member,
                 validation,
                 router,
                 update,

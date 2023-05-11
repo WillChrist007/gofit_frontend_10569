@@ -1,0 +1,279 @@
+<template>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card border-0 rounded shadow">
+                    <div class="card-body" id="print-form">
+                        <h4>STRUK TRANSAKSI DEPOSIT KELAS</h4>
+                        <hr />
+                        <form @submit.prevent="update">
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">Nomor Struk</label>
+                                <input disabled type="text" class="form-control" v-model="transaksi_deposit_kelas.nomor_struk"
+                                    />
+                                <!-- validation -->
+                                <div v-if="validation.nomor_struk" class="mt-2 alert alert-danger">
+                                    {{ validation.nomor_struk[0] }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">Nama Member</label>
+                                <select disabled class="form-control" v-model="transaksi_deposit_kelas.id_member">
+                                    <option value="" selected hidden disabled></option>
+                                    <option v-for="item in users" :key="item.id_member" :value="item.id_member">
+                                        {{ item.nama }}
+                                    </option>
+                                </select>
+                                <!-- validation -->
+                                <div v-if="validation.nomor_struk" class="mt-2 alert alert-danger">
+                                    {{ validation.nomor_struk[0] }}
+                                </div>
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">ID Member</label>
+                                <select disabled class="form-control" v-model="transaksi_deposit_kelas.id_member">
+                                    <option value="" selected hidden disabled></option>
+                                    <option v-for="item in members" :key="item.id" :value="item.id">
+                                        {{ item.id_member }}
+                                    </option>
+                                </select>
+                                <!-- validation -->
+                                <div v-if="validation.nomor_struk" class="mt-2 alert alert-danger">
+                                    {{ validation.nomor_struk[0] }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">Nama Kasir</label>
+                                <select disabled class="form-control" v-model="transaksi_deposit_kelas.id_pegawai">
+                                    <option value="" selected hidden disabled></option>
+                                    <option v-for="item in users" :key="item.id_pegawai" :value="item.id_pegawai">
+                                        {{ item.nama }}
+                                    </option>
+                                </select>
+                                <!-- validation -->
+                                <div v-if="validation.nomor_struk" class="mt-2 alert alert-danger">
+                                    {{ validation.nomor_struk[0] }}
+                                </div>
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">ID Pegawai</label>
+                                <select disabled class="form-control" v-model="transaksi_deposit_kelas.id_pegawai">
+                                    <option value="" selected hidden disabled></option>
+                                    <option v-for="item in pegawais" :key="item.id" :value="item.id">
+                                        {{ item.id_pegawai }}
+                                    </option>
+                                </select>
+                                <!-- validation -->
+                                <div v-if="validation.nomor_struk" class="mt-2 alert alert-danger">
+                                    {{ validation.nomor_struk[0] }}
+                                </div>
+                            </div>    
+
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">Jumlah Bayar</label>
+                                <input disabled type="number" class="form-control" v-model="transaksi_deposit_kelas.jumlah_bayar"
+                                    />
+                                <!-- validation -->
+                                <div v-if="validation.jumlah_bayar" class="mt-2 alert alert-danger">
+                                    {{ validation.jumlah_bayar[0] }}
+                                </div>
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">Nama Kelas</label>
+                                <select disabled class="form-control" v-model="transaksi_deposit_kelas.id_kelas">
+                                    <option value="" selected hidden disabled></option>
+                                    <option v-for="item in kelass" :key="item.id" :value="item.id">
+                                        {{ item.nama_kelas }}
+                                    </option>
+                                </select>
+                                <!-- validation -->
+                                <div v-if="validation.id_kelas" class="mt-2 alert alert-danger">
+                                    {{ validation.id_kelas[0] }}
+                                </div>
+                            </div>    
+
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">Jumlah Kelas</label>
+                                <input disabled type="text" class="form-control" v-model="transaksi_deposit_kelas.jumlah_kelas"
+                                    />
+                                <!-- validation -->
+                                <div v-if="validation.jumlah_kelas" class="mt-2 alert alert-danger">
+                                    {{ validation.jumlah_kelas[0] }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">Bonus Kelas</label>
+                                <input disabled type="text" class="form-control" v-model="transaksi_deposit_kelas.bonus_kelas"
+                                    />
+                                <!-- validation -->
+                                <div v-if="validation.bonus_kelas" class="mt-2 alert alert-danger">
+                                    {{ validation.bonus_kelas[0] }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">Total Kelas</label>
+                                <input disabled type="text" class="form-control" v-model="transaksi_deposit_kelas.total_kelas"
+                                    />
+                                <!-- validation -->
+                                <div v-if="validation.total_kelas" class="mt-2 alert alert-danger">
+                                    {{ validation.total_kelas[0] }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">Tanggal Mulai</label>
+                                <input disabled type="text" class="form-control" v-model="transaksi_deposit_kelas.tanggal_mulai"
+                                    />
+                                <!-- validation -->
+                                <div v-if="validation.tanggal_mulai" class="mt-2 alert alert-danger">
+                                    {{ validation.tanggal_mulai[0] }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="content" class="form-label">Tanggal Berakhir</label>
+                                <input disabled type="text" class="form-control" v-model="transaksi_deposit_kelas.tanggal_berakhir"
+                                    />
+                                <!-- validation -->
+                                <div v-if="validation.tanggal_berakhir" class="mt-2 alert alert-danger">
+                                    {{ validation.tanggal_berakhir[0] }}
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-primary" @click="printForm">Cetak Struk</button>
+                            &nbsp;
+                            <router-link :to="{ name: 'kasir.transaksidepositkelas.index' }" class="btn btn-warning">
+                                Kembali
+                            </router-link>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import { reactive, ref, onMounted } from "vue";
+    import { useRouter, useRoute } from "vue-router";
+    import axios from "axios";
+    import html2pdf from 'html2pdf.js';
+    
+    export default {
+        setup() {
+            //state transaksi_deposit_kelas
+            const transaksi_deposit_kelas = reactive({
+                nomor_struk: "",
+                id_member: "",
+                id_pegawai: "",
+                jumlah_bayar: "",
+                id_kelas: "",
+                bonus_kelas: "",
+                jumlah_kelas: "",
+                total_kelas: "",
+                tanggal_mulai: "",
+                tanggal_berakhir: "",
+            });
+
+            let members = ref([]);
+            let pegawais = ref([]);
+            let users = ref([]);
+            let kelass = ref([]);
+
+            //state validation
+            const validation = ref([]);
+            //vue router
+            const router = useRouter();
+            //params id
+            const route = useRoute();
+            const id = route.params.id
+
+            const token = localStorage.getItem('token')
+
+            onMounted(() => {
+                axios.defaults.headers.common = {
+                    'Authorization': `Bearer ${token}`
+                }
+                //get API from Laravel Backend
+                axios.get('http://127.0.0.1:8000/api/member')
+                    .then(response => {
+                        members.value = response.data.data
+                    }).catch(error => {
+                        console.log(error.response.data)
+                    })
+                axios.get('http://127.0.0.1:8000/api/pegawai')
+                    .then(response => {
+                        pegawais.value = response.data.data
+                    }).catch(error => {
+                        console.log(error.response.data)
+                    })
+
+                axios.get('http://127.0.0.1:8000/api/user')
+                    .then(response => {
+                        users.value = response.data.data
+                    }).catch(error => {
+                        console.log(error.response.data)
+                    })
+
+                axios.get('http://127.0.0.1:8000/api/kelas')
+                    .then(response => {
+                        kelass.value = response.data.data
+                    }).catch(error => {
+                        console.log(error.response.data)
+                    })
+
+                axios
+                    .get("http://127.0.0.1:8000/api/transaksiDepositKelas/" + id, )
+                    .then(response => {
+                        //assign state posts with response data
+                        transaksi_deposit_kelas.nomor_struk = response.data.data.nomor_struk
+                        transaksi_deposit_kelas.id_member = response.data.data.id_member
+                        transaksi_deposit_kelas.id_pegawai = response.data.data.id_pegawai
+                        transaksi_deposit_kelas.jumlah_bayar = response.data.data.jumlah_bayar
+                        transaksi_deposit_kelas.id_kelas = response.data.data.id_kelas
+                        transaksi_deposit_kelas.bonus_kelas = response.data.data.bonus_kelas
+                        transaksi_deposit_kelas.jumlah_kelas = response.data.data.jumlah_kelas
+                        transaksi_deposit_kelas.total_kelas = response.data.data.total_kelas
+                        transaksi_deposit_kelas.tanggal_mulai = response.data.data.tanggal_mulai
+                        transaksi_deposit_kelas.tanggal_berakhir = response.data.data.tanggal_berakhir
+                    }).catch(error => {
+                        console.log(error.response.data)
+                    })
+            })
+
+            function printForm() {
+                const element = document.getElementById('print-form');
+                const options = {
+                margin: 10,
+                filename: 'transaksi_deposit_kelas.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+        html2pdf().set(options).from(element).save();
+      }
+            //return
+            return {
+                transaksi_deposit_kelas,
+                members,
+                pegawais,
+                users,
+                kelass,
+                validation,
+                router,
+                printForm,
+            };
+        },
+    };
+</script>
+<style>
+
+</style>
