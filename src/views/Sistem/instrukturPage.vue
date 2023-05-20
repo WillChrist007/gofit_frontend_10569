@@ -8,54 +8,28 @@
             <div class="col-md-12">
                 <div class="card border-0 rounded shadow">
                     <div class="card-body">
-                        <router-link :to="{ name: 'kasir.member.create' }" class="btn btn-md btn-success">TAMBAH
-                            MEMBER</router-link>
+                        <button class="btn btn-md btn-danger" @click="reset">
+                            RESET ALL
+                        </button>
                         <table class="table table-striped table-bordered mt-4 table-responsive">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">NAMA</th>
                                     <th scope="col">EMAIL</th>
-                                    <th scope="col">TANGGAL LAHIR</th>
-                                    <th scope="col">TELEPON</th>
-                                    <th scope="col">ALAMAT</th>
-                                    <th scope="col">DEPOSIT UANG</th>
-                                    <th scope="col">TANGGAL EXPIRED</th>
-                                    <th scope="col">STATUS</th>
-                                    <th scope="col">AKSI</th>
+                                    <th scope="col">JUMLAH KETERLAMBATAN</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(user, id) in users" :key="id">
-                                    <template v-for="(member, id) in members" :key="id">
-                                        <td v-if="member.id === user.id_member">{{ member.id_member }}</td>
+                                    <template v-for="(instruktur, id) in instrukturs" :key="id">
+                                        <td v-if="instruktur.id === user.id_instruktur">{{ instruktur.id_instruktur }}</td>
                                     </template>
                                     <td>{{ user.nama }}</td>
                                     <td>{{ user.email }}</td>
-                                    <td>{{ user.tanggal_lahir }}</td>
-                                    <td>{{ user.telepon }}</td>
-                                    <td>{{ user.alamat }}</td>
-                                    <template v-for="(member, id) in members" :key="id">
-                                        <td v-if="member.id === user.id_member">{{ member.deposit_uang }}</td>
+                                    <template v-for="(instruktur, id) in instrukturs" :key="id">
+                                        <td v-if="instruktur.id === user.id_instruktur">{{ instruktur.jumlah_keterlambatan }}</td>
                                     </template>
-                                    <template v-for="(member, id) in members" :key="id">
-                                        <td v-if="member.id === user.id_member">{{ member.tanggal_expired }}</td>
-                                    </template>
-                                    <template v-for="(member, id) in members" :key="id">
-                                        <td v-if="member.id === user.id_member">{{ member.status }}</td>
-                                    </template>
-
-                                    <td class="text-center">
-                                        <router-link :to="{ name: 'kasir.member.edit', params: { id: user.id } }" class="btn btn-sm btn-primary mr-1">
-                                            EDIT
-                                        </router-link> &nbsp;
-                                        <button class="btn btn-sm btn-danger ml-1" @click="remove(user.id_member)">
-                                            DELETE
-                                        </button> &nbsp;
-                                        <button class="btn btn-sm btn-warning ml-1" @click="reset(user.id)">
-                                            RESET
-                                        </button>
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -73,7 +47,7 @@ import { useToast } from "vue-toastification";
 export default {
     setup() {
         let users = ref([])
-        let members = ref([])
+        let instrukturs = ref([])
 
         const token = localStorage.getItem('token')
         
@@ -82,50 +56,40 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/userMember')
+            axios.get('http://127.0.0.1:8000/api/userInstruktur')
             .then(response => {
                 users.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
 
-            axios.get('http://127.0.0.1:8000/api/member')
+            axios.get('http://127.0.0.1:8000/api/instruktur')
             .then(response => {
-                members.value = response.data.data
+                instrukturs.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
             
         })
-        //method delete
-        function remove(id) {
-            axios.put(`http://127.0.0.1:8000/api/member/${id}`)
+        //method reset keterlambatan
+        function reset() {
+            axios.put(`http://127.0.0.1:8000/api/instrukturTerlambat/reset-keterlambatan/`)
             .then(() => {
-                        toast.error("Berhasil Deactive Member !",{
+                        toast.error("Berhasil Reset Keterlambatan !",{
                             timeout: 2000
                         })
                 window.location.reload();
             }).catch(error => {
                 console.log(error.response.data)
-            })
-        }
-        //method reset password
-        function reset(id) {
-            axios.put(`http://127.0.0.1:8000/api/user/reset-password/${id}`)
-            .then(() => {
-                        toast.warning("Berhasil Reset Password !",{
+                        toast.error("Reset Hanya Dilakukan Awal Bulan !",{
                             timeout: 2000
                         })
-                window.location.reload();
-            }).catch(error => {
-                console.log(error.response.data)
             })
         }
         
         return {
             users,
-            members,
-            remove,
+            instrukturs,
             reset
         }
     }

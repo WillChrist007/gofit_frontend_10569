@@ -31,6 +31,9 @@
                             <router-link :to="{ name: 'manager.jadwalharian.index' }" class="nav-link">Jadwal Harian</router-link>
                         </li>
                         <li class="nav-item">
+                            <router-link :to="{ name: 'manager.ijininstruktur.index' }" class="nav-link">Ijin Instruktur</router-link>
+                        </li>
+                        <li class="nav-item">
                             <router-link :to="{ name: 'kasir.member.index' }" class="nav-link">Member</router-link>
                         </li>
                         <li class="nav-item">
@@ -46,6 +49,10 @@
                 </div>
                 <div class="position-bottom pt-3">
                     <ul>
+                        
+                        <li class="nav-item">
+                            <router-link :to="{ name: 'sistem' }" class="nav-link">Sistem</router-link>
+                        </li>
                         <li class="nav-item">
                             <router-link :to="{ name: 'changepassword' }" class="nav-link">Ganti Password</router-link>
                         </li>

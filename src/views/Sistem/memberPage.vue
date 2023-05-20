@@ -8,8 +8,9 @@
             <div class="col-md-12">
                 <div class="card border-0 rounded shadow">
                     <div class="card-body">
-                        <router-link :to="{ name: 'kasir.member.create' }" class="btn btn-md btn-success">TAMBAH
-                            MEMBER</router-link>
+                        <button class="btn btn-md btn-danger" @click="deactivate">
+                            DEACTIVE ALL
+                        </button>
                         <table class="table table-striped table-bordered mt-4 table-responsive">
                             <thead class="thead-dark">
                                 <tr>
@@ -22,40 +23,38 @@
                                     <th scope="col">DEPOSIT UANG</th>
                                     <th scope="col">TANGGAL EXPIRED</th>
                                     <th scope="col">STATUS</th>
-                                    <th scope="col">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(user, id) in users" :key="id">
-                                    <template v-for="(member, id) in members" :key="id">
-                                        <td v-if="member.id === user.id_member">{{ member.id_member }}</td>
-                                    </template>
-                                    <td>{{ user.nama }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.tanggal_lahir }}</td>
-                                    <td>{{ user.telepon }}</td>
-                                    <td>{{ user.alamat }}</td>
-                                    <template v-for="(member, id) in members" :key="id">
-                                        <td v-if="member.id === user.id_member">{{ member.deposit_uang }}</td>
-                                    </template>
-                                    <template v-for="(member, id) in members" :key="id">
-                                        <td v-if="member.id === user.id_member">{{ member.tanggal_expired }}</td>
-                                    </template>
-                                    <template v-for="(member, id) in members" :key="id">
-                                        <td v-if="member.id === user.id_member">{{ member.status }}</td>
+                                <tr v-for="(member, id) in members" :key="id">
+                                    
+                                    <td>{{ member.id_member }}</td>
+
+                                    <template v-for="(user, id) in users" :key="id">
+                                        <td v-if="user.id_member === member.id">{{ user.nama }}</td>
                                     </template>
 
-                                    <td class="text-center">
-                                        <router-link :to="{ name: 'kasir.member.edit', params: { id: user.id } }" class="btn btn-sm btn-primary mr-1">
-                                            EDIT
-                                        </router-link> &nbsp;
-                                        <button class="btn btn-sm btn-danger ml-1" @click="remove(user.id_member)">
-                                            DELETE
-                                        </button> &nbsp;
-                                        <button class="btn btn-sm btn-warning ml-1" @click="reset(user.id)">
-                                            RESET
-                                        </button>
-                                    </td>
+                                    <template v-for="(user, id) in users" :key="id">
+                                        <td v-if="user.id_member === member.id">{{ user.email }}</td>
+                                    </template>
+
+                                    <template v-for="(user, id) in users" :key="id">
+                                        <td v-if="user.id_member === member.id">{{ user.tanggal_lahir }}</td>
+                                    </template>
+
+                                    <template v-for="(user, id) in users" :key="id">
+                                        <td v-if="user.id_member === member.id">{{ user.telepon }}</td>
+                                    </template>
+
+                                    <template v-for="(user, id) in users" :key="id">
+                                        <td v-if="user.id_member === member.id">{{ user.alamat }}</td>
+                                    </template>
+                                    
+                                    <td>{{ member.deposit_uang }}</td>
+                                    
+                                    <td>{{ member.tanggal_expired }}</td>
+                                    
+                                    <td>{{ member.status }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -82,24 +81,24 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/userMember')
-            .then(response => {
-                users.value = response.data.data
-            }).catch(error => {
-                console.log(error.response.data)
-            })
-
-            axios.get('http://127.0.0.1:8000/api/member')
+            axios.get('http://127.0.0.1:8000/api/userMemberExpired')
             .then(response => {
                 members.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
+
+            axios.get('http://127.0.0.1:8000/api/user')
+            .then(response => {
+                users.value = response.data.data
+            }).catch(error => {
+                console.log(error.response.data)
+            })
             
         })
-        //method delete
-        function remove(id) {
-            axios.put(`http://127.0.0.1:8000/api/member/${id}`)
+        //method deactivate
+        function deactivate() {
+            axios.put(`http://127.0.0.1:8000/api/memberExpired/deactivate/`)
             .then(() => {
                         toast.error("Berhasil Deactive Member !",{
                             timeout: 2000
@@ -125,7 +124,7 @@ export default {
         return {
             users,
             members,
-            remove,
+            deactivate,
             reset
         }
     }

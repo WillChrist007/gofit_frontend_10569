@@ -39,12 +39,8 @@
                                         <td v-if="kelas.id === jadwal_harian.id_kelas">{{ kelas.nama_kelas }}</td>
                                     </template>
 
-                                    <template v-for="(instruktur, id) in instrukturs" :key="id">
-                                        <template v-if="instruktur.id === jadwal_harian.id_instruktur">
-                                            <template v-for="(user, id) in users" :key="id">
-                                                <td v-if="user.id_instruktur === instruktur.id">{{ user.nama }}</td>
-                                            </template>
-                                        </template>
+                                    <template v-for="(instruktur, id) in users" :key="id">
+                                        <td v-if="instruktur.id_instruktur === jadwal_harian.id_instruktur">{{ instruktur.nama }}</td>
                                     </template>
 
                                     <td>{{ jadwal_harian.jam_kelas }}</td>

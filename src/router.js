@@ -24,7 +24,8 @@ const routes = [
                 path: "/changepassword",
                 name: "changepassword",
                 component: () => import("@/views/ChangePasswordPage.vue"),
-            },                
+            },
+            //menu admin
             {
                 path: "/pegawai",
                 name: "admin.pegawai.index",
@@ -70,6 +71,7 @@ const routes = [
                 name: "admin.promo.edit",
                 component: () => import("@/views/Promo/editPage.vue"),
             },
+            //menu manager
             {
                 path: "/kelas",
                 name: "manager.kelas.index",
@@ -110,6 +112,12 @@ const routes = [
                 name: "manager.jadwalharian.edit",
                 component: () => import("@/views/JadwalHarian/editPage.vue"),
             },
+            {
+                path: "/ijininstruktur",
+                name: "manager.ijininstruktur.index",
+                component: () => import("@/views/IjinInstruktur/indexPage.vue"),
+            },
+            //menu kasir
             {
                 path: "/member",
                 name: "kasir.member.index",
@@ -170,6 +178,28 @@ const routes = [
                 name: "kasir.transaksidepositkelas.cetak",
                 component: () => import("@/views/TransaksiDepositKelas/cetakPage.vue"),
             },
+            //sistem
+            {
+                path: "/sistem",
+                name: "sistem",
+                component: () => import("@/views/Sistem/menuPage.vue"),
+            },
+            {
+                path: "/sistem/member",
+                name: "sistem.member.index",
+                component: () => import("@/views/Sistem/memberPage.vue"),
+            },
+            {
+                path: "/sistem/deposit",
+                name: "sistem.deposit.index",
+                component: () => import("@/views/Sistem/depositPage.vue"),
+            },
+            {
+                path: "/sistem/instruktur",
+                name: "sistem.instruktur.index",
+                component: () => import("@/views/Sistem/instrukturPage.vue"),
+            },
+            
         ],
     },
 ]

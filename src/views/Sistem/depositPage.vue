@@ -7,55 +7,38 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card border-0 rounded shadow">
-                    <div class="card-body">
-                        <router-link :to="{ name: 'kasir.member.create' }" class="btn btn-md btn-success">TAMBAH
-                            MEMBER</router-link>
+                    <div class="card-body">                        
+                        <button class="btn btn-md btn-danger" @click="reset">
+                            RESET ALL
+                        </button>
                         <table class="table table-striped table-bordered mt-4 table-responsive">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">NAMA</th>
-                                    <th scope="col">EMAIL</th>
-                                    <th scope="col">TANGGAL LAHIR</th>
-                                    <th scope="col">TELEPON</th>
-                                    <th scope="col">ALAMAT</th>
-                                    <th scope="col">DEPOSIT UANG</th>
-                                    <th scope="col">TANGGAL EXPIRED</th>
-                                    <th scope="col">STATUS</th>
-                                    <th scope="col">AKSI</th>
+                                    <th scope="col">KELAS</th>
+                                    <th scope="col">SISA DEPOSIT</th>
+                                    <th scope="col">MASA BERLAKU</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(user, id) in users" :key="id">
+                                <tr v-for="(depositkelass, id) in depositkelass" :key="id">
+
                                     <template v-for="(member, id) in members" :key="id">
-                                        <td v-if="member.id === user.id_member">{{ member.id_member }}</td>
-                                    </template>
-                                    <td>{{ user.nama }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.tanggal_lahir }}</td>
-                                    <td>{{ user.telepon }}</td>
-                                    <td>{{ user.alamat }}</td>
-                                    <template v-for="(member, id) in members" :key="id">
-                                        <td v-if="member.id === user.id_member">{{ member.deposit_uang }}</td>
-                                    </template>
-                                    <template v-for="(member, id) in members" :key="id">
-                                        <td v-if="member.id === user.id_member">{{ member.tanggal_expired }}</td>
-                                    </template>
-                                    <template v-for="(member, id) in members" :key="id">
-                                        <td v-if="member.id === user.id_member">{{ member.status }}</td>
+                                        <td v-if="member.id === depositkelass.id_member">{{ member.id_member }}</td>
                                     </template>
 
-                                    <td class="text-center">
-                                        <router-link :to="{ name: 'kasir.member.edit', params: { id: user.id } }" class="btn btn-sm btn-primary mr-1">
-                                            EDIT
-                                        </router-link> &nbsp;
-                                        <button class="btn btn-sm btn-danger ml-1" @click="remove(user.id_member)">
-                                            DELETE
-                                        </button> &nbsp;
-                                        <button class="btn btn-sm btn-warning ml-1" @click="reset(user.id)">
-                                            RESET
-                                        </button>
-                                    </td>
+                                    <template v-for="(user, id) in users" :key="id">
+                                        <td v-if="user.id_member === depositkelass.id_member">{{ user.nama }}</td>
+                                    </template>
+
+                                    <template v-for="(kelas, id) in kelass" :key="id">
+                                        <td v-if="kelas.id === depositkelass.id_kelas">{{ kelas.nama_kelas }}</td>
+                                    </template>
+
+                                    <td>{{ depositkelass.sisa_kelas }}</td>
+
+                                    <td>{{ depositkelass.masa_berlaku }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -74,6 +57,8 @@ export default {
     setup() {
         let users = ref([])
         let members = ref([])
+        let kelass = ref([])
+        let depositkelass = ref([])
 
         const token = localStorage.getItem('token')
         
@@ -82,9 +67,9 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/userMember')
+            axios.get('http://127.0.0.1:8000/api/depositKelasExpired')
             .then(response => {
-                users.value = response.data.data
+                depositkelass.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
@@ -95,25 +80,27 @@ export default {
             }).catch(error => {
                 console.log(error.response.data)
             })
-            
-        })
-        //method delete
-        function remove(id) {
-            axios.put(`http://127.0.0.1:8000/api/member/${id}`)
-            .then(() => {
-                        toast.error("Berhasil Deactive Member !",{
-                            timeout: 2000
-                        })
-                window.location.reload();
+
+            axios.get('http://127.0.0.1:8000/api/user')
+            .then(response => {
+                users.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
-        }
-        //method reset password
-        function reset(id) {
-            axios.put(`http://127.0.0.1:8000/api/user/reset-password/${id}`)
+
+            axios.get('http://127.0.0.1:8000/api/kelas')
+            .then(response => {
+                kelass.value = response.data.data
+            }).catch(error => {
+                console.log(error.response.data)
+            })
+            
+        })
+        //method reset
+        function reset() {
+            axios.put(`http://127.0.0.1:8000/api/kelasExpired/reset/`)
             .then(() => {
-                        toast.warning("Berhasil Reset Password !",{
+                        toast.error("Berhasil Reset Kelas !",{
                             timeout: 2000
                         })
                 window.location.reload();
@@ -125,8 +112,9 @@ export default {
         return {
             users,
             members,
-            remove,
-            reset
+            kelass,
+            depositkelass,
+            reset,
         }
     }
 }
