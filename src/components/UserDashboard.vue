@@ -45,6 +45,12 @@
                         <li class="nav-item">
                             <router-link :to="{ name: 'kasir.transaksidepositkelas.index' }" class="nav-link">Transaksi Deposit Kelas</router-link>
                         </li>
+                        <li class="nav-item">
+                            <router-link :to="{ name: 'kasir.presensigym.index' }" class="nav-link">Presensi Gym</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link :to="{ name: 'kasir.presensikelas.index' }" class="nav-link">Presensi Kelas</router-link>
+                        </li>
                     </ul>
                 </div>
                 <div class="position-bottom pt-3">

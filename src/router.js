@@ -178,6 +178,31 @@ const routes = [
                 name: "kasir.transaksidepositkelas.cetak",
                 component: () => import("@/views/TransaksiDepositKelas/cetakPage.vue"),
             },
+            {
+                path: "/presensigym",
+                name: "kasir.presensigym.index",
+                component: () => import("@/views/PresensiGym/indexPage.vue"),
+            },
+            {
+                path: "/presensigym",
+                name: "kasir.presensigym.cetak",
+                component: () => import("@/views/PresensiGym/cetakPage.vue"),
+            },
+            {
+                path: "/presensikelas",
+                name: "kasir.presensikelas.index",
+                component: () => import("@/views/PresensiKelas/indexPage.vue"),
+            },
+            {
+                path: "/presensikelas/cetakReguler",
+                name: "kasir.presensikelas.cetak.reguler",
+                component: () => import("@/views/PresensiKelas/cetakRegulerPage.vue"),
+            },
+            {
+                path: "/presensikelas/cetakPaket",
+                name: "kasir.presensikelas.cetak.paket",
+                component: () => import("@/views/PresensiKelas/cetakPaketPage.vue"),
+            },
             //sistem
             {
                 path: "/sistem",
