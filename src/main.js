@@ -15,11 +15,13 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 import html2pdf from 'html2pdf.js';
+import { Bar } from 'chart.js';
 
 const app = createApp(App)
 
 app.use(router)
 app.use(Toast)
 app.use(html2pdf)
+app.use(Bar)
 
 app.mount('#app')

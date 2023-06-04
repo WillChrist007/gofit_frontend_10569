@@ -117,6 +117,31 @@ const routes = [
                 name: "manager.ijininstruktur.index",
                 component: () => import("@/views/IjinInstruktur/indexPage.vue"),
             },
+            {
+                path: "/laporan",
+                name: "manager.laporan",
+                component: () => import("@/views/Laporan/menuPage.vue"),
+            },
+            {
+                path: "/laporan/pendapatan",
+                name: "manager.laporan.pendapatan",
+                component: () => import("@/views/Laporan/pendapatanPage.vue"),
+            },
+            {
+                path: "/laporan/kelas",
+                name: "manager.laporan.kelas",
+                component: () => import("@/views/Laporan/aktivitasKelasPage.vue"),
+            },
+            {
+                path: "/laporan/gym",
+                name: "manager.laporan.gym",
+                component: () => import("@/views/Laporan/aktivitasGymPage.vue"),
+            },
+            {
+                path: "/laporan/kinerja",
+                name: "manager.laporan.kinerja",
+                component: () => import("@/views/Laporan/kinerjaInstrukturPage.vue"),
+            },
             //menu kasir
             {
                 path: "/member",

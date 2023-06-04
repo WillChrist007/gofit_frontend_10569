@@ -21,13 +21,13 @@
                                 <label for="content" class="form-label">Jam</label>
                                 <select disabled class="form-control" v-model="jadwal_harian.jam_kelas">
                                     <option value="" selected hidden disabled>Pilih Jam</option>
-                                    <option value="7 am">7 am</option>
-                                    <option value="9 am">9 am</option>
-                                    <option value="11 am">11 am</option>
-                                    <option value="1 pm">1 pm</option>
-                                    <option value="3 pm">3 pm</option>
-                                    <option value="5 pm">5 pm</option>
-                                    <option value="7 pm">7 pm</option>
+                                    <option value="07:00:00">07:00:00</option>
+                                    <option value="09:00:00">09:00:00</option>
+                                    <option value="11:00:00">11:00:00</option>
+                                    <option value="13:00:00">13:00:00</option>
+                                    <option value="15:00:00">15:00:00</option>
+                                    <option value="17:00:00">17:00:00</option>
+                                    <option value="19:00:00">19:00:00</option>
                                 </select>
                                 <!-- validation -->
                                 <div v-if="validation.jam_kelas" class="mt-2 alert alert-danger">

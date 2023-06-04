@@ -34,6 +34,9 @@
                             <router-link :to="{ name: 'manager.ijininstruktur.index' }" class="nav-link">Ijin Instruktur</router-link>
                         </li>
                         <li class="nav-item">
+                            <router-link :to="{ name: 'manager.laporan' }" class="nav-link">Laporan</router-link>
+                        </li>
+                        <li class="nav-item">
                             <router-link :to="{ name: 'kasir.member.index' }" class="nav-link">Member</router-link>
                         </li>
                         <li class="nav-item">
