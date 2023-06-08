@@ -159,6 +159,11 @@ const routes = [
                 component: () => import("@/views/Member/editPage.vue"),
             },
             {
+                path: "/member/cetak",
+                name: "kasir.member.cetak",
+                component: () => import("@/views/Member/cetakPage.vue"),
+            },
+            {
                 path: "/transaksiaktivasi",
                 name: "kasir.transaksiaktivasi.index",
                 component: () => import("@/views/TransaksiAktivasi/indexPage.vue"),

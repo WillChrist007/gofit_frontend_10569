@@ -8,8 +8,16 @@
             <div class="col-md-12">
                 <div class="card border-0 rounded shadow">
                     <div class="card-body">
-                        <router-link :to="{ name: 'admin.instruktur.create' }" class="btn btn-md btn-success">TAMBAH
+                        <router-link :to="{ name: 'admin.instruktur.create' }" class="btn btn-md btn-success mb-4">TAMBAH
                             INSTRUKTUR</router-link>
+                        <div class="input-group mb-3">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Cari data..."
+                                v-model="searchTerm"
+                            />
+                        </div>
                         <table class="table table-striped table-bordered mt-4 table-responsive">
                             <thead class="thead-dark">
                                 <tr>
@@ -23,7 +31,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(user, id) in users" :key="id">
+                                <tr v-for="(user, id) in filteredInstrukturs" :key="id">
                                     <template v-for="(instruktur, id) in instrukturs" :key="id">
                                         <td v-if="instruktur.id === user.id_instruktur">{{ instruktur.id_instruktur }}</td>
                                     </template>
@@ -60,8 +68,9 @@ import { onMounted, ref } from 'vue'
 import { useToast } from "vue-toastification";
 export default {
     setup() {
-        let users = ref([])
-        let instrukturs = ref([])
+        let users = ref([]);
+        let instrukturs = ref([]);
+        let searchTerm = ref("");
 
         const token = localStorage.getItem('token')
         
@@ -70,7 +79,7 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/userInstruktur')
+            axios.get('http://127.0.0.1:8000/api/user')
             .then(response => {
                 users.value = response.data.data
             }).catch(error => {
@@ -113,10 +122,29 @@ export default {
         return {
             users,
             instrukturs,
+            searchTerm,
             remove,
             reset
         }
-    }
+    },
+    computed: {
+        filteredInstrukturs() {
+            return this.users.filter((user) => {
+                const searchTermLower = this.searchTerm.toLowerCase();
+                const instruktur = this.instrukturs.find((instruktur) => instruktur.id === user.id_instruktur);
+                return (
+                    user.id_instruktur !== null && (
+                        user.nama.toLowerCase().includes(searchTermLower) ||
+                        user.email.toLowerCase().includes(searchTermLower) ||
+                        user.tanggal_lahir.toLowerCase().includes(searchTermLower) ||
+                        user.telepon.toLowerCase().includes(searchTermLower) ||
+                        user.alamat.toLowerCase().includes(searchTermLower) ||
+                        (instruktur && instruktur.id_instruktur.toLowerCase().includes(searchTermLower))
+                    )
+                );
+            });
+        },
+    },
 }
 </script>
 

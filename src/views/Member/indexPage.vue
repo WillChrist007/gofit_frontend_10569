@@ -8,8 +8,16 @@
             <div class="col-md-12">
                 <div class="card border-0 rounded shadow">
                     <div class="card-body">
-                        <router-link :to="{ name: 'kasir.member.create' }" class="btn btn-md btn-success">TAMBAH
+                        <router-link :to="{ name: 'kasir.member.create' }" class="btn btn-md btn-success mb-4">TAMBAH
                             MEMBER</router-link>
+                        <div class="input-group mb-3">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Cari data..."
+                                v-model="searchTerm"
+                            />
+                        </div>
                         <table class="table table-striped table-bordered mt-4 table-responsive">
                             <thead class="thead-dark">
                                 <tr>
@@ -22,11 +30,12 @@
                                     <th scope="col">DEPOSIT UANG</th>
                                     <th scope="col">TANGGAL EXPIRED</th>
                                     <th scope="col">STATUS</th>
+                                    <th scope="col">CETAK</th>
                                     <th scope="col">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(user, id) in users" :key="id">
+                                <tr v-for="(user, id) in filteredMember" :key="id">
                                     <template v-for="(member, id) in members" :key="id">
                                         <td v-if="member.id === user.id_member">{{ member.id_member }}</td>
                                     </template>
@@ -44,15 +53,19 @@
                                     <template v-for="(member, id) in members" :key="id">
                                         <td v-if="member.id === user.id_member">{{ member.status }}</td>
                                     </template>
-
+                                    <td>
+                                        <router-link :to="{ name: 'kasir.member.cetak', params: { id: user.id } }" class="btn btn-sm btn-info m-1">
+                                            CETAK
+                                        </router-link> &nbsp;
+                                    </td>
                                     <td class="text-center">
-                                        <router-link :to="{ name: 'kasir.member.edit', params: { id: user.id } }" class="btn btn-sm btn-primary mr-1">
+                                        <router-link :to="{ name: 'kasir.member.edit', params: { id: user.id } }" class="btn btn-sm btn-primary m-1">
                                             EDIT
                                         </router-link> &nbsp;
-                                        <button class="btn btn-sm btn-danger ml-1" @click="remove(user.id_member)">
+                                        <button class="btn btn-sm btn-danger m-1" @click="remove(user.id_member)">
                                             DELETE
                                         </button> &nbsp;
-                                        <button class="btn btn-sm btn-warning ml-1" @click="reset(user.id)">
+                                        <button class="btn btn-sm btn-warning m-1" @click="reset(user.id)">
                                             RESET
                                         </button>
                                     </td>
@@ -74,6 +87,7 @@ export default {
     setup() {
         let users = ref([])
         let members = ref([])
+        let searchTerm = ref("");
 
         const token = localStorage.getItem('token')
         
@@ -82,7 +96,7 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/userMember')
+            axios.get('http://127.0.0.1:8000/api/user')
             .then(response => {
                 users.value = response.data.data
             }).catch(error => {
@@ -125,10 +139,32 @@ export default {
         return {
             users,
             members,
+            searchTerm,
             remove,
             reset
         }
-    }
+    },
+    computed: {
+        filteredMember() {
+            return this.users.filter((user) => {
+                const searchTermLower = this.searchTerm.toLowerCase();
+                const member = this.members.find((member) => member.id === user.id_member);
+                return (
+                    user.id_member !== null && (
+                        user.nama.toLowerCase().includes(searchTermLower) ||
+                        user.email.toLowerCase().includes(searchTermLower) ||
+                        user.tanggal_lahir.toLowerCase().includes(searchTermLower) ||
+                        user.telepon.toLowerCase().includes(searchTermLower) ||
+                        user.alamat.toLowerCase().includes(searchTermLower) ||
+                        (member && member.id_member.toLowerCase().includes(searchTermLower))||
+                        (member && member.tanggal_expired.toLowerCase().includes(searchTermLower))||
+                        (member && member.deposit_uang.toString().toLowerCase().includes(searchTermLower))||
+                        (member && member.status.toLowerCase().includes(searchTermLower))
+                    )
+                );
+            });
+        },
+    },
 }
 </script>
 
