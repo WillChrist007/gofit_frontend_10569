@@ -100,34 +100,34 @@
 
             onMounted(() => {
                 //get API from Laravel Backend
-                axios.get('http://127.0.0.1:8000/api/userMember')
+                axios.get('https://200710569.gofit.backend.given.website/api/userMember')
                     .then(response => {
                         members.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
-                axios.get('http://127.0.0.1:8000/api/pegawai')
+                axios.get('https://200710569.gofit.backend.given.website/api/pegawai')
                     .then(response => {
                         pegawais.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/user')
+                axios.get('https://200710569.gofit.backend.given.website/api/user')
                     .then(response => {
                         users.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/promo')
+                axios.get('https://200710569.gofit.backend.given.website/api/promo')
                     .then(response => {
                         promos.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/kelas')
+                axios.get('https://200710569.gofit.backend.given.website/api/kelas')
                     .then(response => {
                         kelass.value = response.data.data
                     }).catch(error => {
@@ -148,7 +148,7 @@
                 const token = localStorage.getItem('token')
                 axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
                 axios
-                    .post("http://127.0.0.1:8000/api/transaksiDepositKelas", {
+                    .post("https://200710569.gofit.backend.given.website/api/transaksiDepositKelas", {
                         id_member: id_member,
                         id_pegawai: id_pegawai,
                         jumlah_kelas: jumlah_kelas,

@@ -57,7 +57,7 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/promo')
+            axios.get('https://200710569.gofit.backend.given.website/api/promo')
             .then(response => {
                 promos.value = response.data.data
             }).catch(error => {
@@ -68,7 +68,7 @@ export default {
         })
         //method delete
         function promoDelete(id) {
-            axios.delete(`http://127.0.0.1:8000/api/promo/${id}`)
+            axios.delete(`https://200710569.gofit.backend.given.website/api/promo/${id}`)
             .then(() => {
                         toast.error("Berhasil Hapus Data !",{
                             timeout: 2000

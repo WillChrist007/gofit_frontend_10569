@@ -74,14 +74,14 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/userPegawai')
+            axios.get('https://200710569.gofit.backend.given.website/api/userPegawai')
             .then(response => {
                 users.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
 
-            axios.get('http://127.0.0.1:8000/api/pegawai')
+            axios.get('https://200710569.gofit.backend.given.website/api/pegawai')
             .then(response => {
                 pegawais.value = response.data.data
             }).catch(error => {
@@ -91,7 +91,7 @@ export default {
         })
         //method delete
         function remove(id) {
-            axios.delete(`http://127.0.0.1:8000/api/pegawai/${id}`)
+            axios.delete(`https://200710569.gofit.backend.given.website/api/pegawai/${id}`)
             .then(() => {
                         toast.error("Berhasil Hapus Data !",{
                             timeout: 2000
@@ -103,7 +103,7 @@ export default {
         }
         //method reset password
         function reset(id) {
-            axios.put(`http://127.0.0.1:8000/api/user/reset-password/${id}`)
+            axios.put(`https://200710569.gofit.backend.given.website/api/user/reset-password/${id}`)
             .then(() => {
                         toast.error("Berhasil Reset Password !",{
                             timeout: 2000

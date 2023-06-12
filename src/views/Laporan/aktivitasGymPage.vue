@@ -60,7 +60,7 @@
             },
             fetchDataByDate() {
                 axios
-                    .get('http://127.0.0.1:8000/api/laporanGym')
+                    .get('https://200710569.gofit.backend.given.website/api/laporanGym')
                     .then(response => {
                         this.dataByDate = response.data;
                     })

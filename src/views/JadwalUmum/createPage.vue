@@ -104,21 +104,21 @@
 
             onMounted(() => {
                 //get API from Laravel Backend
-                axios.get('http://127.0.0.1:8000/api/userInstruktur')
+                axios.get('https://200710569.gofit.backend.given.website/api/userInstruktur')
                     .then(response => {
                         users.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/instruktur')
+                axios.get('https://200710569.gofit.backend.given.website/api/instruktur')
                     .then(response => {
                         instrukturs.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/kelas')
+                axios.get('https://200710569.gofit.backend.given.website/api/kelas')
                     .then(response => {
                         kelass.value = response.data.data
                     }).catch(error => {
@@ -138,7 +138,7 @@
                 const token = localStorage.getItem('token')
                 axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
                 axios
-                    .post("http://127.0.0.1:8000/api/jadwalUmum", {
+                    .post("https://200710569.gofit.backend.given.website/api/jadwalUmum", {
                         hari: hari,
                         jam_kelas: jam_kelas,
                         id_instruktur: id_instruktur,

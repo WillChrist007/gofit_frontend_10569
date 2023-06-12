@@ -81,7 +81,7 @@
             },
             fetchDataByDate() {
                 return axios
-                    .get('http://127.0.0.1:8000/api/pendapatan')
+                    .get('https://200710569.gofit.backend.given.website/api/pendapatan')
                     .then(response => {
                         this.dataByMonth = response.data;
                         this.hitungTotalPendapatan();
@@ -93,7 +93,7 @@
             },
             hitungTotalPendapatan() {
                 axios
-                    .get('http://127.0.0.1:8000/api/totalPendapatan')
+                    .get('https://200710569.gofit.backend.given.website/api/totalPendapatan')
                     .then(response => {
                         this.totalPendapatan = response.data;
                     })

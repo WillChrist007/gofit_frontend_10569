@@ -56,14 +56,14 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/userInstruktur')
+            axios.get('https://200710569.gofit.backend.given.website/api/userInstruktur')
             .then(response => {
                 users.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
 
-            axios.get('http://127.0.0.1:8000/api/instruktur')
+            axios.get('https://200710569.gofit.backend.given.website/api/instruktur')
             .then(response => {
                 instrukturs.value = response.data.data
             }).catch(error => {
@@ -73,7 +73,7 @@ export default {
         })
         //method reset keterlambatan
         function reset() {
-            axios.put(`http://127.0.0.1:8000/api/instrukturTerlambat/reset-keterlambatan/`)
+            axios.put(`https://200710569.gofit.backend.given.website/api/instrukturTerlambat/reset-keterlambatan/`)
             .then(() => {
                         toast.error("Berhasil Reset Keterlambatan !",{
                             timeout: 2000

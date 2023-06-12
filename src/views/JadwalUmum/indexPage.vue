@@ -91,28 +91,28 @@
                     'Authorization': `Bearer ${token}`
                 }
 
-                axios.get('http://127.0.0.1:8000/api/jadwalUmum')
+                axios.get('https://200710569.gofit.backend.given.website/api/jadwalUmum')
                     .then(response => {
                         jadwal_umums.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/kelas')
+                axios.get('https://200710569.gofit.backend.given.website/api/kelas')
                     .then(response => {
                         kelass.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/instruktur')
+                axios.get('https://200710569.gofit.backend.given.website/api/instruktur')
                     .then(response => {
                         instrukturs.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/userInstruktur')
+                axios.get('https://200710569.gofit.backend.given.website/api/userInstruktur')
                     .then(response => {
                         users.value = response.data.data
                     }).catch(error => {
@@ -122,7 +122,7 @@
             })
             //method generate
             function generate() {
-                axios.get(`http://127.0.0.1:8000/api/jadwalUmum/generate-jadwal`)
+                axios.get(`https://200710569.gofit.backend.given.website/api/jadwalUmum/generate-jadwal`)
                     .then(() => {
                         toast.error("Berhasil Generate Jadwal !", {
                             timeout: 2000
@@ -135,7 +135,7 @@
 
             //method delete
             function remove(id) {
-                axios.delete(`http://127.0.0.1:8000/api/jadwalUmum/${id}`)
+                axios.delete(`https://200710569.gofit.backend.given.website/api/jadwalUmum/${id}`)
                     .then(() => {
                         toast.error("Berhasil Hapus Data !", {
                             timeout: 2000

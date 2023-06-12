@@ -99,14 +99,14 @@
                     'Authorization': `Bearer ${token}`
                 }
 
-                axios.get('https://200710569.gofit.backend.given.website/api//ijinInstruktur')
+                axios.get('https://200710569.gofit.backend.given.website/api/ijinInstruktur')
                     .then(response => {
                         ijin_instrukturs.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('https://200710569.gofit.backend.given.website/api//user')
+                axios.get('https://200710569.gofit.backend.given.website/api/user')
                     .then(response => {
                         users.value = response.data.data
                     }).catch(error => {
@@ -116,7 +116,7 @@
             })
             
             function confirmIjin(id) {
-            axios.put(`https://200710569.gofit.backend.given.website/api//ijinInstruktur/confirm/${id}`)
+            axios.put(`https://200710569.gofit.backend.given.website/api/ijinInstruktur/confirm/${id}`)
                 .then(() => {
                 toast.success("Berhasil Mengkonfirmasi Ijin !", {
                     timeout: 2000
@@ -128,7 +128,7 @@
             }
             
             function rejectIjin(id) {
-            axios.put(`https://200710569.gofit.backend.given.website/api//ijinInstruktur/reject/${id}`)
+            axios.put(`https://200710569.gofit.backend.given.website/api/ijinInstruktur/reject/${id}`)
                 .then(() => {
                 toast.error("Ijin Ditolak !", {
                     timeout: 2000

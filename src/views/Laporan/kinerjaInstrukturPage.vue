@@ -63,26 +63,26 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/userInstruktur')
+            axios.get('https://200710569.gofit.backend.given.website/api/userInstruktur')
             .then(response => {
                 users.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
 
-            axios.get('http://127.0.0.1:8000/api/instruktur/kinerja')
+            axios.get('https://200710569.gofit.backend.given.website/api/instruktur/kinerja')
             .then(response => {
                 instrukturs.value = response.data.data
                 instrukturs.value.forEach(instruktur => {
                     //JUMLAH HADIR
-                    axios.get(`http://127.0.0.1:8000/api/presensiInstruktur/count/${instruktur.id}`)
+                    axios.get(`https://200710569.gofit.backend.given.website/api/presensiInstruktur/count/${instruktur.id}`)
                     .then(response => {
                         instruktur.jumlah_hadir = response.data // Update jumlah_hadir dengan response.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
                     //JUMLAH LIBUR
-                    axios.get(`http://127.0.0.1:8000/api/ijinInstruktur/count/${instruktur.id}`)
+                    axios.get(`https://200710569.gofit.backend.given.website/api/ijinInstruktur/count/${instruktur.id}`)
                     .then(response => {
                         instruktur.jumlah_libur = response.data // Update jumlah_hadir dengan response.data
                     }).catch(error => {

@@ -97,35 +97,35 @@
                     'Authorization': `Bearer ${token}`
                 }
 
-                axios.get('http://127.0.0.1:8000/api/transaksiDepositKelas')
+                axios.get('https://200710569.gofit.backend.given.website/api/transaksiDepositKelas')
                     .then(response => {
                         transaksi_deposit_kelass.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/member')
+                axios.get('https://200710569.gofit.backend.given.website/api/member')
                     .then(response => {
                         members.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/pegawai')
+                axios.get('https://200710569.gofit.backend.given.website/api/pegawai')
                     .then(response => {
                         pegawais.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/user')
+                axios.get('https://200710569.gofit.backend.given.website/api/user')
                     .then(response => {
                         users.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/kelas')
+                axios.get('https://200710569.gofit.backend.given.website/api/kelas')
                     .then(response => {
                          kelass.value = response.data.data
                     }).catch(error => {

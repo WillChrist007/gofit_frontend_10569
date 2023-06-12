@@ -58,7 +58,7 @@ export default {
     onMounted(() => {
       axios.defaults.headers.common = { 'Authorization': `Bearer ${token}` }
 
-      axios.get('http://127.0.0.1:8000/api/kelas')
+      axios.get('https://200710569.gofit.backend.given.website/api/kelas')
         .then(response => {
           kelass.value = response.data.data
         }).catch(error => {
@@ -68,7 +68,7 @@ export default {
 
     //method delete
     function kelasDelete(id) {
-      axios.delete(`http://127.0.0.1:8000/api/kelas/${id}`)
+      axios.delete(`https://200710569.gofit.backend.given.website/api/kelas/${id}`)
         .then(() => {
           toast.error("Berhasil Hapus Data !", {
             timeout: 2000

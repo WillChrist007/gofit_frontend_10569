@@ -79,14 +79,14 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/user')
+            axios.get('https://200710569.gofit.backend.given.website/api/user')
             .then(response => {
                 users.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
 
-            axios.get('http://127.0.0.1:8000/api/instruktur')
+            axios.get('https://200710569.gofit.backend.given.website/api/instruktur')
             .then(response => {
                 instrukturs.value = response.data.data
             }).catch(error => {
@@ -96,7 +96,7 @@ export default {
         })
         //method delete
         function remove(id) {
-            axios.delete(`http://127.0.0.1:8000/api/instruktur/${id}`)
+            axios.delete(`https://200710569.gofit.backend.given.website/api/instruktur/${id}`)
             .then(() => {
                         toast.error("Berhasil Hapus Data !",{
                             timeout: 2000
@@ -108,7 +108,7 @@ export default {
         }
         //method reset password
         function reset(id) {
-            axios.put(`http://127.0.0.1:8000/api/user/reset-password/${id}`)
+            axios.put(`https://200710569.gofit.backend.given.website/api/user/reset-password/${id}`)
             .then(() => {
                         toast.error("Berhasil Reset Password !",{
                             timeout: 2000

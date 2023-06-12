@@ -81,14 +81,14 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/userMemberExpired')
+            axios.get('https://200710569.gofit.backend.given.website/api/userMemberExpired')
             .then(response => {
                 members.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
 
-            axios.get('http://127.0.0.1:8000/api/user')
+            axios.get('https://200710569.gofit.backend.given.website/api/user')
             .then(response => {
                 users.value = response.data.data
             }).catch(error => {
@@ -98,7 +98,7 @@ export default {
         })
         //method deactivate
         function deactivate() {
-            axios.put(`http://127.0.0.1:8000/api/memberExpired/deactivate/`)
+            axios.put(`https://200710569.gofit.backend.given.website/api/memberExpired/deactivate/`)
             .then(() => {
                         toast.error("Berhasil Deactive Member !",{
                             timeout: 2000
@@ -110,7 +110,7 @@ export default {
         }
         //method reset password
         function reset(id) {
-            axios.put(`http://127.0.0.1:8000/api/user/reset-password/${id}`)
+            axios.put(`https://200710569.gofit.backend.given.website/api/user/reset-password/${id}`)
             .then(() => {
                         toast.warning("Berhasil Reset Password !",{
                             timeout: 2000

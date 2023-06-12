@@ -95,7 +95,7 @@
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
             //get API from Laravel Backend
             axios
-                .get("http://127.0.0.1:8000/api/user/" + id,)
+                .get("https://200710569.gofit.backend.given.website/api/user/" + id,)
                 .then(response => {
                     //assign state posts with response data
                     user.nama = response.data.data.nama
@@ -118,7 +118,7 @@
 
                 let toast = useToast();
                 axios
-                    .put("http://127.0.0.1:8000/api/userInstruktur/" + id, {
+                    .put("https://200710569.gofit.backend.given.website/api/userInstruktur/" + id, {
                         nama: nama,
                         email: email,
                         telepon: telepon,

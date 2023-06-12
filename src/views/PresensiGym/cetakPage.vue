@@ -69,7 +69,7 @@
                     'Authorization': `Bearer ${token}`
                 }
 
-                axios.get('http://127.0.0.1:8000/api/bookingGym/'+ id,)
+                axios.get('https://200710569.gofit.backend.given.website/api/bookingGym/'+ id,)
                     .then(response => {
                         booking_gyms.value = response.data.data
                         toast.success("Berhasil Menampilkan Data !", {
@@ -82,14 +82,14 @@
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/user')
+                axios.get('https://200710569.gofit.backend.given.website/api/user')
                     .then(response => {
                         users.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/member')
+                axios.get('https://200710569.gofit.backend.given.website/api/member')
                     .then(response => {
                         members.value = response.data.data
                     }).catch(error => {

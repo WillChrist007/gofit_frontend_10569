@@ -54,12 +54,12 @@ export default {
         onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
-            axios.get('http://127.0.0.1:8000/api/kelas')
+            axios.get('https://200710569.gofit.backend.given.website/api/kelas')
             .then(response => {
                 kelass.value = response.data.data
                 kelass.value.forEach(kelas => {
                     //JUMLAH PESERTA
-                    axios.get(`http://127.0.0.1:8000/api/bookingKelas/count/${kelas.id}`)
+                    axios.get(`https://200710569.gofit.backend.given.website/api/bookingKelas/count/${kelas.id}`)
                     .then(response => {
                         kelas.jumlah_peserta = response.data // Update jumlah_peserta dengan response.data
                     }).catch(error => {

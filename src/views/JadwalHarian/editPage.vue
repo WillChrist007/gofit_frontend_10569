@@ -126,27 +126,27 @@
                     'Authorization': `Bearer ${token}`
                 }
                 //get API from Laravel Backend
-                axios.get('http://127.0.0.1:8000/api/kelas')
+                axios.get('https://200710569.gofit.backend.given.website/api/kelas')
                     .then(response => {
                         kelass.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
-                axios.get('http://127.0.0.1:8000/api/instruktur')
+                axios.get('https://200710569.gofit.backend.given.website/api/instruktur')
                     .then(response => {
                         instrukturs.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
 
-                axios.get('http://127.0.0.1:8000/api/userInstruktur')
+                axios.get('https://200710569.gofit.backend.given.website/api/userInstruktur')
                     .then(response => {
                         users.value = response.data.data
                     }).catch(error => {
                         console.log(error.response.data)
                     })
                 axios
-                    .get("http://127.0.0.1:8000/api/jadwalHarian/" + id, )
+                    .get("https://200710569.gofit.backend.given.website/api/jadwalHarian/" + id, )
                     .then(response => {
                         //assign state posts with response data
                         jadwal_harian.id_kelas = response.data.data.id_kelas
@@ -169,7 +169,7 @@
 
                 let toast = useToast();
                 axios
-                    .put("http://127.0.0.1:8000/api/jadwalHarian/" + id, {
+                    .put("https://200710569.gofit.backend.given.website/api/jadwalHarian/" + id, {
                         id_kelas: id_kelas,
                         id_instruktur: id_instruktur,
                         tanggal_jadwal: tanggal_jadwal,

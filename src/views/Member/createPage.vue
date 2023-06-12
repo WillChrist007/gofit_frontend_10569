@@ -109,7 +109,7 @@
                 const token = localStorage.getItem('token')
                 axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
                 axios
-                    .post("http://127.0.0.1:8000/api/member", {
+                    .post("https://200710569.gofit.backend.given.website/api/member", {
                         nama: nama,
                         email: email,
                         tanggal_lahir: tanggal_lahir,
