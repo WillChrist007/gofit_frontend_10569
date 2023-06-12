@@ -8,9 +8,13 @@
                         <hr />
                         <form @submit.prevent="update">
                             <div class="form-group mb-3">
-                                <label class="form-label">Kelas</label>
-                                <input type="number" class="form-control" v-model="jadwal_umum.id_kelas"
-                                    placeholder="Masukkan id_kelas" />
+                                <label for="content" class="form-label">Kelas</label>
+                                <select class="form-control" v-model="jadwal_umum.id_kelas">
+                                    <option value="" selected hidden disabled>Pilih Kelas</option>
+                                    <option v-for="item in kelass" :key="item.id" :value="item.id">
+                                        {{ item.nama_kelas }}
+                                    </option>
+                                </select>
                                 <!-- validation -->
                                 <div v-if="validation.id_kelas" class="mt-2 alert alert-danger">
                                     {{ validation.id_kelas[0] }}
@@ -18,32 +22,51 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label class="form-label">Instruktur</label>
-                                <input type="number" class="form-control" v-model="jadwal_umum.id_instruktur"
-                                    placeholder="Masukkan id_instruktur" />
+                                <label for="content" class="form-label">Instruktur</label>
+                                <select class="form-control" v-model="jadwal_umum.id_instruktur">
+                                    <option value="" selected hidden disabled>Pilih Instruktur</option>
+                                    <option v-for="item in users" :key="item.id" :value="item.id_instruktur">
+                                        {{ item.nama }}
+                                    </option>
+                                </select>
                                 <!-- validation -->
-                                <div v-if="validation.id_instruktur" class="mt-2 alert alert-danger">
-                                    {{ validation.id_instruktur[0] }}
+                                <div v-if="validation.id_kelas" class="mt-2 alert alert-danger">
+                                    {{ validation.id_kelas[0] }}
                                 </div>
                             </div>
 
                             <div class="form-group mb-3">
-                                <label class="form-label">Hari</label>
-                                <input type="text" class="form-control" v-model="jadwal_umum.hari"
-                                    placeholder="Masukkan hari" />
+                                <label for="content" class="form-label">Hari</label>
+                                <select class="form-control" v-model="jadwal_umum.hari">
+                                    <option value="" selected hidden disabled>Pilih Hari</option>
+                                    <option value="Senin">Senin</option>
+                                    <option value="Selasa">Selasa</option>
+                                    <option value="Rabu">Rabu</option>
+                                    <option value="Kamis">Kamis</option>
+                                    <option value="Jumat">Jumat</option>
+                                    <option value="Sabtu">Sabtu</option>
+                                </select>
                                 <!-- validation -->
-                                <div v-if="validation.hari" class="mt-2 alert alert-danger">
-                                    {{ validation.hari[0] }}
+                                <div v-if="validation.id_kelas" class="mt-2 alert alert-danger">
+                                    {{ validation.id_kelas[0] }}
                                 </div>
                             </div>
 
                             <div class="form-group mb-3">
-                                <label class="form-label">Jam</label>
-                                <input type="text" class="form-control" v-model="jadwal_umum.jam_kelas"
-                                    placeholder="Masukkan id_instruktur" />
+                                <label for="content" class="form-label">Jam</label>
+                                <select class="form-control" v-model="jadwal_umum.jam_kelas">
+                                    <option value="" selected hidden disabled>Pilih Jam</option>
+                                    <option value="07:00:00">07:00:00</option>
+                                    <option value="09:00:00">09:00:00</option>
+                                    <option value="11:00:00">11:00:00</option>
+                                    <option value="13:00:00">13:00:00</option>
+                                    <option value="15:00:00">15:00:00</option>
+                                    <option value="17:00:00">17:00:00</option>
+                                    <option value="19:00:00">19:00:00</option>
+                                </select>
                                 <!-- validation -->
-                                <div v-if="validation.jam_kelas" class="mt-2 alert alert-danger">
-                                    {{ validation.jam_kelas[0] }}
+                                <div v-if="validation.id_kelas" class="mt-2 alert alert-danger">
+                                    {{ validation.id_kelas[0] }}
                                 </div>
                             </div>
 
@@ -80,6 +103,10 @@
 
             const token = localStorage.getItem('token')
 
+            let users = ref([]);
+            let instrukturs = ref([]);
+            let kelass = ref([]);
+
             onMounted(() => {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
             //get API from Laravel Backend
@@ -94,6 +121,27 @@
                 }).catch(error => {
                     console.log(error.response.data)
                 })
+            
+                axios.get('http://127.0.0.1:8000/api/userInstruktur')
+                    .then(response => {
+                        users.value = response.data.data
+                    }).catch(error => {
+                        console.log(error.response.data)
+                    })
+
+                axios.get('http://127.0.0.1:8000/api/instruktur')
+                    .then(response => {
+                        instrukturs.value = response.data.data
+                    }).catch(error => {
+                        console.log(error.response.data)
+                    })
+
+                axios.get('http://127.0.0.1:8000/api/kelas')
+                    .then(response => {
+                        kelass.value = response.data.data
+                    }).catch(error => {
+                        console.log(error.response.data)
+                    })
             })
 
             //method update
@@ -131,6 +179,9 @@
             //return
             return {
                 jadwal_umum,
+                users,
+                instrukturs,
+                kelass,
                 validation,
                 router,
                 update,

@@ -4,56 +4,69 @@
             <div class="col-md-12">
                 <div class="card border-0 rounded shadow">
                     <div class="card-body">
-                        <h4>TAMBAH INSTRUKTUR</h4>
+                        <h4>TAMBAH TRANSAKSI DEPOSIT KELAS</h4>
                         <hr />
                         <form @submit.prevent="store">
                             <div class="form-group mb-3">
-                                <label class="form-label">Nama</label>
-                                <input type="text" class="form-control" v-model="instruktur.nama"
-                                    placeholder="Masukkan nama" />
+                                <label for="content" class="form-label">Kelas</label>
+                                <select class="form-control" v-model="jadwal_umum.id_kelas">
+                                    <option value="" selected hidden disabled>Pilih Kelas</option>
+                                    <option v-for="item in kelass" :key="item.id" :value="item.id">
+                                        {{ item.nama_kelas }}
+                                    </option>
+                                </select>
                                 <!-- validation -->
-                                <div v-if="validation.nama" class="mt-2 alert alert-danger">
-                                    {{ validation.nama[0] }}
+                                <div v-if="validation.id_kelas" class="mt-2 alert alert-danger">
+                                    {{ validation.id_kelas[0] }}
                                 </div>
                             </div>
 
                             <div class="form-group mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" v-model="instruktur.email"
-                                    placeholder="Masukkan email" />
+                                <label for="content" class="form-label">Instruktur</label>
+                                <select class="form-control" v-model="jadwal_umum.id_instruktur">
+                                    <option value="" selected hidden disabled>Pilih Instruktur</option>
+                                    <option v-for="item in users" :key="item.id" :value="item.id_instruktur">
+                                        {{ item.nama }}
+                                    </option>
+                                </select>
                                 <!-- validation -->
-                                <div v-if="validation.email" class="mt-2 alert alert-danger">
-                                    {{ validation.email[0] }}
+                                <div v-if="validation.id_kelas" class="mt-2 alert alert-danger">
+                                    {{ validation.id_kelas[0] }}
                                 </div>
                             </div>
 
                             <div class="form-group mb-3">
-                                <label class="form-label">Telepon</label>
-                                <input type="number" class="form-control" v-model="instruktur.telepon"
-                                    placeholder="Masukkan telepon" />
+                                <label for="content" class="form-label">Hari</label>
+                                <select class="form-control" v-model="jadwal_umum.hari">
+                                    <option value="" selected hidden disabled>Pilih Hari</option>
+                                    <option value="Senin">Senin</option>
+                                    <option value="Selasa">Selasa</option>
+                                    <option value="Rabu">Rabu</option>
+                                    <option value="Kamis">Kamis</option>
+                                    <option value="Jumat">Jumat</option>
+                                    <option value="Sabtu">Sabtu</option>
+                                </select>
                                 <!-- validation -->
-                                <div v-if="validation.telepon" class="mt-2 alert alert-danger">
-                                    {{ validation.telepon[0] }}
+                                <div v-if="validation.id_kelas" class="mt-2 alert alert-danger">
+                                    {{ validation.id_kelas[0] }}
                                 </div>
                             </div>
 
                             <div class="form-group mb-3">
-                                <label for="content" class="form-label">Tanggal Lahir</label>
-                                <input type="date" class="form-control" v-model="instruktur.tanggal_lahir"
-                                    placeholder="Masukkan tanggal lahir" />
+                                <label for="content" class="form-label">Jam</label>
+                                <select class="form-control" v-model="jadwal_umum.jam_kelas">
+                                    <option value="" selected hidden disabled>Pilih Jam</option>
+                                    <option value="07:00:00">07:00:00</option>
+                                    <option value="09:00:00">09:00:00</option>
+                                    <option value="11:00:00">11:00:00</option>
+                                    <option value="13:00:00">13:00:00</option>
+                                    <option value="15:00:00">15:00:00</option>
+                                    <option value="17:00:00">17:00:00</option>
+                                    <option value="19:00:00">19:00:00</option>
+                                </select>
                                 <!-- validation -->
-                                <div v-if="validation.tanggal_lahir" class="mt-2 alert alert-danger">
-                                    {{ validation.tanggal_lahir[0] }}
-                                </div>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label class="form-label">alamat</label>
-                                <input type="text" class="form-control" v-model="instruktur.alamat"
-                                    placeholder="Masukkan email" />
-                                <!-- validation -->
-                                <div v-if="validation.alamat" class="mt-2 alert alert-danger">
-                                    {{ validation.alamat[0] }}
+                                <div v-if="validation.id_kelas" class="mt-2 alert alert-danger">
+                                    {{ validation.id_kelas[0] }}
                                 </div>
                             </div>
 
@@ -67,42 +80,69 @@
 </template>
 
 <script>
-    import { reactive, ref } from "vue";
+    import { reactive, ref, onMounted } from "vue";
     import { useRouter } from "vue-router";
     import axios from "axios";
     import { useToast } from "vue-toastification";
     export default {
         setup() {
-            //state instruktur
-            const instruktur = reactive({
-                nama: "",
-                email: "",
-                tanggal_lahir: "",
-                telepon: "",
-                alamat: "",
+            //state jadwal_umum
+            const jadwal_umum = reactive({
+                hari: "",
+                jam_kelas: "",
+                id_instruktur: "",
+                id_kelas: "",
             });
             //state validation
             const validation = ref([]);
             //vue router
             const router = useRouter();
+
+            let users = ref([]);
+            let instrukturs = ref([]);
+            let kelass = ref([]);
+
+            onMounted(() => {
+                //get API from Laravel Backend
+                axios.get('http://127.0.0.1:8000/api/userInstruktur')
+                    .then(response => {
+                        users.value = response.data.data
+                    }).catch(error => {
+                        console.log(error.response.data)
+                    })
+
+                axios.get('http://127.0.0.1:8000/api/instruktur')
+                    .then(response => {
+                        instrukturs.value = response.data.data
+                    }).catch(error => {
+                        console.log(error.response.data)
+                    })
+
+                axios.get('http://127.0.0.1:8000/api/kelas')
+                    .then(response => {
+                        kelass.value = response.data.data
+                    }).catch(error => {
+                        console.log(error.response.data)
+                    })
+                
+            })
+
             //method store
             function store() {
-                let nama = instruktur.nama;
-                let email = instruktur.email;
-                let tanggal_lahir = instruktur.tanggal_lahir;
-                let telepon = instruktur.telepon;
-                let alamat = instruktur.alamat;
+                let hari = jadwal_umum.hari;
+                let jam_kelas = jadwal_umum.jam_kelas;
+                let id_instruktur = jadwal_umum.id_instruktur;
+                let id_kelas = jadwal_umum.id_kelas;
                 let toast = useToast();
 
                 const token = localStorage.getItem('token')
                 axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
                 axios
-                    .post("http://127.0.0.1:8000/api/instruktur", {
-                        nama: nama,
-                        email: email,
-                        tanggal_lahir: tanggal_lahir,
-                        telepon: telepon,
-                        alamat: alamat,
+                    .post("http://127.0.0.1:8000/api/jadwalUmum", {
+                        hari: hari,
+                        jam_kelas: jam_kelas,
+                        id_instruktur: id_instruktur,
+                        id_kelas: id_kelas,
                     })
                     .then(() => {
                         toast.success("Berhasil Tambah Data !",{
@@ -110,17 +150,23 @@
                         })
                         //redirect ke post index
                         router.push({
-                            name: "admin.instruktur.index",
+                            name: "manager.jadwalumum.index",
                         });
                     })
                     .catch((error) => {
+                        toast.error("Jadwal BErtabrakan !",{
+                            timeout: 2000
+                        })
                         //assign state validation with error
                         validation.value = error.response.data
                     });
             }
             //return
             return {
-                instruktur,
+                jadwal_umum,
+                users,
+                instrukturs,
+                kelass,
                 validation,
                 router,
                 store,

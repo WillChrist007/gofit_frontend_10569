@@ -19,8 +19,7 @@
                                 <tr>
                                     <th scope="col">BULAN</th>
                                     <th scope="col">AKTIVASI</th>
-                                    <th scope="col">DEPOSIT KELAS</th>
-                                    <th scope="col">DEPOSIT REGULER</th>
+                                    <th scope="col">DEPOSIT</th>
                                     <th scope="col">TOTAL</th>
                                 </tr>
                             </thead>
@@ -28,7 +27,6 @@
                                 <tr v-for="data in dataByMonth" :key="data.tanggal_gym">
                                     <td>{{ data.bulan }}</td>
                                     <td>Rp{{ data.transaksiAktivasis }}</td>
-                                    <td>Rp{{ data.transaksiDepositKelass }}</td>
                                     <td>Rp{{ data.transaksiDepositUangs }}</td>
                                     <td>Rp{{ data.total }}</td>
                                 </tr>
@@ -37,7 +35,6 @@
                                 <tr>
                                     <th>Total</th>
                                     <th>Rp{{ totalPendapatan.totalAktivasis }}</th>
-                                    <th>Rp{{ totalPendapatan.totalDepositKelass }}</th>
                                     <th>Rp{{ totalPendapatan.totalDepositUangs }}</th>
                                     <th>Rp{{ totalPendapatan.totalKeseluruhan }}</th>
                                 </tr>

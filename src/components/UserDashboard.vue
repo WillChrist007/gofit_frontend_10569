@@ -1,6 +1,9 @@
 <template>
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3">GOFIT</a>
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3">
+            GOFIT 
+            <span v-if="role" class="text-muted">({{ role }})</span>
+        </a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
             data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -10,8 +13,8 @@
     <div class="container-fluid">
         <div class="row">
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                <div class="position-sticky pt-3">
-                    <ul class="nav flex-column">
+                <div class="position-sticky pt-3">                    
+                    <ul v-if="role === 'Admin'" class="nav flex-column">
                         <li class="nav-item">
                             <router-link :to="{ name: 'admin.pegawai.index' }" class="nav-link">Pegawai</router-link>
                         </li>
@@ -21,6 +24,8 @@
                         <li class="nav-item">
                             <router-link :to="{ name: 'admin.promo.index' }" class="nav-link">Promo</router-link>
                         </li>
+                    </ul>
+                    <ul v-if="role === 'MO'" class="nav flex-column">
                         <li class="nav-item">
                             <router-link :to="{ name: 'manager.kelas.index' }" class="nav-link">Kelas</router-link>
                         </li>
@@ -36,6 +41,8 @@
                         <li class="nav-item">
                             <router-link :to="{ name: 'manager.laporan' }" class="nav-link">Laporan</router-link>
                         </li>
+                    </ul>                    
+                    <ul v-if="role === 'Kasir'" class="nav flex-column">
                         <li class="nav-item">
                             <router-link :to="{ name: 'kasir.member.index' }" class="nav-link">Member</router-link>
                         </li>
@@ -83,10 +90,16 @@
     import { useRouter } from "vue-router";
     import axios from "axios";
     import { useToast } from "vue-toastification";
+    import { ref, watch } from "vue";
     export default {
     setup() {
         //inisialisasi vue router on Composition API
         const router = useRouter();
+        const role = ref(localStorage.getItem("role"));
+
+        watch(role, (newValue) => {
+        role.value = newValue;
+        });
         
         let toast = useToast();
 
@@ -95,19 +108,22 @@
         //logout
 
         axios
-            .post("https://supermarketku.site/api/logout")
+            .post("https://200710569.gofit.backend.given.website/api//logout")
             .then((response) => {
-            if (response.data.success) {
+            if (response) {
                 toast.error("Berhasil Logout !",{
                             timeout: 2000
                         })
                 //remove localStorage
                 localStorage.removeItem("token");
+                localStorage.removeItem("id");
+                localStorage.removeItem("id_pegawai");
+                localStorage.removeItem("role");
 
                 //redirect ke halaman login
                 router
                 .push({
-                    name: "welcome",
+                    name: "login",
                 })
             }
             })
@@ -118,6 +134,7 @@
 
         return {
         logout, // <-- method logout
+        role
         };
     },
 };

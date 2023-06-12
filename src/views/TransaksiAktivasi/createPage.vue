@@ -12,8 +12,8 @@
                                 <label for="content" class="form-label">Member</label>
                                 <select class="form-control" v-model="transaksi_aktivasi.id_member">
                                     <option value="" selected hidden disabled>Pilih Member</option>
-                                    <option v-for="item in members" :key="item.id" :value="item.id">
-                                        {{ item.id_member }}
+                                    <option v-for="item in members" :key="item.id" :value="item.id_member">
+                                        {{ item.nama }}
                                     </option>
                                 </select>
                                 <!-- validation -->
@@ -65,7 +65,7 @@
 
             onMounted(() => {
                 //get API from Laravel Backend
-                axios.get('http://127.0.0.1:8000/api/member')
+                axios.get('http://127.0.0.1:8000/api/userMember')
                     .then(response => {
                         members.value = response.data.data
                     }).catch(error => {

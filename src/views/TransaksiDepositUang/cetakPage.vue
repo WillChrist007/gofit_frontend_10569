@@ -112,14 +112,14 @@
                                     {{ validation.total_deposit[0] }}
                                 </div>
                             </div>
-
-                            <button type="button" class="btn btn-primary" @click="printForm">Cetak Struk</button>
-                            &nbsp;
-                            <router-link :to="{ name: 'kasir.transaksideposituang.index' }" class="btn btn-warning">
-                                Kembali
-                            </router-link>
                         </form>
-                    </div>
+                    </div>                    
+                    <button type="button" class="btn btn-primary mt-0 m-3" @click="printForm">
+                        Cetak Struk
+                    </button>
+                    <router-link :to="{ name: 'kasir.transaksideposituang.index' }" class="btn btn-warning mt-0 m-3">
+                        Kembali
+                    </router-link>
                 </div>
             </div>
         </div>

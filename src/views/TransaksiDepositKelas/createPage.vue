@@ -12,8 +12,8 @@
                                 <label for="content" class="form-label">Member</label>
                                 <select class="form-control" v-model="transaksi_deposit_kelas.id_member">
                                     <option value="" selected hidden disabled>Pilih Member</option>
-                                    <option v-for="item in members" :key="item.id" :value="item.id">
-                                        {{ item.id_member }}
+                                    <option v-for="item in members" :key="item.id" :value="item.id_member">
+                                        {{ item.nama }}
                                     </option>
                                 </select>
                                 <!-- validation -->
@@ -23,14 +23,17 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label for="content" class="form-label">Jumlah Deposit</label>
-                                <input type="number" class="form-control" v-model="transaksi_deposit_kelas.jumlah_bayar"
-                                    placeholder="Masukkan Jumlah Bayar" />
+                                <label for="content" class="form-label">Jumlah Kelas</label>
+                                <select class="form-control" v-model="transaksi_deposit_kelas.jumlah_kelas">
+                                    <option value="" selected hidden disabled>Jumlah Kelas Kelas</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                </select>
                                 <!-- validation -->
-                                <div v-if="validation.jumlah_bayar" class="mt-2 alert alert-danger">
-                                    {{ validation.jumlah_bayar[0] }}
+                                <div v-if="validation.jumlah_kelas" class="mt-2 alert alert-danger">
+                                    {{ validation.jumlah_kelas[0] }}
                                 </div>
-                            </div>
+                            </div>    
 
                             <div class="form-group mb-3">
                                 <label for="content" class="form-label">Kelas</label>
@@ -80,7 +83,7 @@
             const transaksi_deposit_kelas = reactive({
                 id_member: "",
                 id_pegawai: "",
-                jumlah_bayar: "",
+                jumlah_kelas: "",
                 id_promo: "",
                 id_kelas: "",
             });
@@ -97,7 +100,7 @@
 
             onMounted(() => {
                 //get API from Laravel Backend
-                axios.get('http://127.0.0.1:8000/api/member')
+                axios.get('http://127.0.0.1:8000/api/userMember')
                     .then(response => {
                         members.value = response.data.data
                     }).catch(error => {
@@ -137,7 +140,7 @@
             function store() {
                 let id_member = transaksi_deposit_kelas.id_member;
                 const id_pegawai = localStorage.getItem('id_pegawai')
-                let jumlah_bayar = transaksi_deposit_kelas.jumlah_bayar;
+                let jumlah_kelas = transaksi_deposit_kelas.jumlah_kelas;
                 let id_promo = transaksi_deposit_kelas.id_promo;
                 let id_kelas = transaksi_deposit_kelas.id_kelas;
                 let toast = useToast();
@@ -148,7 +151,7 @@
                     .post("http://127.0.0.1:8000/api/transaksiDepositKelas", {
                         id_member: id_member,
                         id_pegawai: id_pegawai,
-                        jumlah_bayar: jumlah_bayar,
+                        jumlah_kelas: jumlah_kelas,
                         id_promo: id_promo,
                         id_kelas: id_kelas,
                     })

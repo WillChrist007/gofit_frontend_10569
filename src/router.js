@@ -21,6 +21,11 @@ const routes = [
                 component: () => import("@/views/WelcomePage.vue"),
             },
             {
+                path: "/denied",
+                name: "denied",
+                component: () => import("@/views/DeniedPage.vue"),
+            },
+            {
                 path: "/changepassword",
                 name: "changepassword",
                 component: () => import("@/views/ChangePasswordPage.vue"),
